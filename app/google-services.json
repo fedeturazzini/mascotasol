@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1050515230041",
+    "project_id": "mascotasol",
+    "storage_bucket": "mascotasol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050515230041:android:8e612ccc01ab1d486e9048",
+        "android_client_info": {
+          "package_name": "com.mascotasol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050515230041-5151f3i15u9gtdorsn00oedasu2pl7q7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcVAIs8NxaVaY2nmZ-UXDQBMBSLvkczMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050515230041-5151f3i15u9gtdorsn00oedasu2pl7q7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,7 +8,6 @@ import kotlinx.coroutines.tasks.await
 class FirebaseRepositoryImp(
     firebaseDatabase: FirebaseFirestore
 ): FirebaseRepository {
-
     private val animalRef = firebaseDatabase.collection("Animal")
 
     override suspend fun addAnimals(name: String, raza: String) {
@@ -22,15 +21,10 @@ class FirebaseRepositoryImp(
         return addAnimalList(querySnapshot)
     }
 
-    override fun listenAnimals(): List<Animal> {
-        var animals = mutableListOf<Animal>()
-        animalRef.addSnapshotListener { value, error ->
-            value?.let {
-                animals = addAnimalList(it)
-            }
+    override fun listenAnimals(animal: (MutableList<Animal>) -> Unit) {
+        animalRef.addSnapshotListener { value, _ ->
+            value?.let { animal.invoke(addAnimalList(it)) }
         }
-
-        return animals
     }
 
     private fun addAnimalList(querySnapshot: QuerySnapshot): MutableList<Animal> {
@@ -43,7 +37,3 @@ class FirebaseRepositoryImp(
         return animals
     }
 }
-
-
-//                val animals = addAnimalList(it)
-// animalAdapter.addAnimals(animals)

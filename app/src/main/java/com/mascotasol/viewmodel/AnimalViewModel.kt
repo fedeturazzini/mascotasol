@@ -31,9 +31,8 @@ class AnimalViewModel @Inject constructor(
     }
 
     fun startListenerForAnimals() {
-        viewModelScope.launch {
-            _animalsState.value = firebaseRepository.listenAnimals()
+        firebaseRepository.listenAnimals {
+            _animalsState.value = it
         }
     }
-
 }

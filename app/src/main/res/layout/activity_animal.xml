@@ -33,6 +33,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -54,7 +55,5 @@
             layout="@layout/bottom_sheet_layout_animal" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

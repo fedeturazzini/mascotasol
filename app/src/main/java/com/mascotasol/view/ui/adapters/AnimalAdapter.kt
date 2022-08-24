@@ -32,19 +32,19 @@ class AnimalAdapter(var onClick: () -> Unit): RecyclerView.Adapter<AnimalAdapter
     inner class ViewHolder(private val animalRow: AnimalRowBinding) : RecyclerView.ViewHolder(animalRow.root) {
         fun bind(animal: Animal) {
             animalRow.apply {
-                root.setOnClickListener {
-                    onClick.invoke()
-                   /* val intent = Intent(it.context, AnimalDetailActivity::class.java)
-                    it.context.startActivity(
-                        intent,
-                        ActivityOptions.makeSceneTransitionAnimation(
-                            it.context as Activity,
-                            animalRow.image, "image"
-                        ).toBundle()
-                    )*/
-                }
-                name.text = animal.name
-                raza.text = animal.raza
+//                root.setOnClickListener {
+//                    onClick.invoke()
+//                   /* val intent = Intent(it.context, AnimalDetailActivity::class.java)
+//                    it.context.startActivity(
+//                        intent,
+//                        ActivityOptions.makeSceneTransitionAnimation(
+//                            it.context as Activity,
+//                            animalRow.image, "image"
+//                        ).toBundle()
+//                    )*/
+//                }
+//                name.text = animal.name
+//                raza.text = animal.raza
             }
         }
     }

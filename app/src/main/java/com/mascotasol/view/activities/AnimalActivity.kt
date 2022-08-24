@@ -1,46 +1,41 @@
 package com.mascotasol.view.activities
 
-import android.app.ActivityOptions
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.transition.Explode
 import android.view.View
-import android.view.Window
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.mascotasol.databinding.ActivityAnimalBinding
-import com.mascotasol.data.model.Animal
 import com.mascotasol.view.ui.adapters.AnimalAdapter
 import com.mascotasol.view.ui.bottomsheet.initListeners
 import com.mascotasol.view.ui.fabButton.initBottomSheetListener
 import com.mascotasol.view.ui.toolbar.initListeners
 import com.mascotasol.viewmodel.AnimalViewModel
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.lifecycle.lifecycleScope
+import com.mascotasol.data.model.Animal
+import com.mascotasol.view.ui.compose.AnimalListContent
+import com.mascotasol.view.ui.compose.AnimalListItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 @AndroidEntryPoint
 class AnimalActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAnimalBinding
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var animalViewModel: AnimalViewModel
-    private val animalAdapter = AnimalAdapter(onClick = {
-        val intent2 = Intent(this, AnimalDetailActivity::class.java)
-        startActivity(
-            intent2,
-            ActivityOptions.makeSceneTransitionAnimation(
-                this
-            ).toBundle()
-        )
-    })
+    private lateinit var animalAdapter: AnimalAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +44,17 @@ class AnimalActivity : AppCompatActivity() {
 
         initViewModel()
         initToolbar()
-        initRecyclerView()
+        initAnimalList()
         initBottomSheet()
         initFabButton()
+    }
+
+    private fun initAnimalList() {
+        binding.myComposable.setContent {
+            MyApp(animalViewModel) {
+                startActivity(AnimalDetailActivity.newIntent(this, it))
+            }
+        }
     }
 
     private fun initViewModel() {
@@ -66,18 +69,6 @@ class AnimalActivity : AppCompatActivity() {
         binding.toolbar.apply {
             setSupportActionBar(customToolbar)
             initListeners(binding.root.context)
-        }
-    }
-
-    private fun initRecyclerView() {
-        binding.recyclerView.let {
-            it.layoutManager = GridLayoutManager(it.context, 2)
-            it.adapter = animalAdapter
-            lifecycleScope.launch {
-                animalViewModel.animalsSate.collect { animals ->
-                    animalAdapter.addAnimals(animals)
-                }
-            }
         }
     }
 
@@ -101,6 +92,16 @@ class AnimalActivity : AppCompatActivity() {
     private fun initFabButton() {
         binding.fab.apply { this.initBottomSheetListener(bottomSheetBehavior) }
     }
+}
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun MyApp(animalViewModel: AnimalViewModel, navigateToAnimalDetail: (Animal) -> Unit) {
+    Scaffold(
+        content = {
+            AnimalListContent(animalViewModel = animalViewModel , navigateToAnimalDetail = navigateToAnimalDetail)
+        }
+    )
 }
 
 

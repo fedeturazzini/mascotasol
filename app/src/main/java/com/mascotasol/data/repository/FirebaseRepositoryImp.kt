@@ -12,7 +12,14 @@ class FirebaseRepositoryImp(
 
     override suspend fun addAnimals(name: String, raza: String) {
         animalRef.add(
-            Animal(name, raza, 1)
+            Animal(
+                1,
+                name,
+                raza,
+                "sexo",
+                1,
+                1,
+            "hola")
         ).await()
     }
 

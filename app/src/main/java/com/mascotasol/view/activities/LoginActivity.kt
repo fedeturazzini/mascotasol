@@ -30,15 +30,34 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         auth = FirebaseAuth.getInstance()
-        // registerUser()
-        uploadProfileImage()
+        //registerUser()
+        //logIn()
+        //uploadProfileImage()
     }
 
+    private fun logIn() {
+        lifecycleScope.launch {
+            try {
+                auth.signInWithEmailAndPassword(
+                    "fede.tura@gmail.com",
+                    "123456"
+                ).await()
+
+                withContext(Dispatchers.Main) {
+                    checkLogginState()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 
     private fun registerUser() {
         lifecycleScope.launch {
             auth.createUserWithEmailAndPassword(
-                "fede.turazzini@gmail.com",
+                "fede.tura@gmail.com",
                 "123456"
             ).await()
 
@@ -46,7 +65,6 @@ class LoginActivity : AppCompatActivity() {
                 checkLogginState()
             }
         }
-
     }
 
     private fun uploadProfileImage() {
@@ -69,9 +87,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun checkLogginState() {
         if (auth.currentUser == null) {
-            //Toast.makeText(this, "Loggin Nulo", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Loggin Nulo", Toast.LENGTH_LONG).show()
         } else {
-            //Toast.makeText(this, "Loggin Exitoso", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Loggin Exitoso", Toast.LENGTH_LONG).show()
             Intent(this, AnimalActivity::class.java).also {
                 startActivity(it)
             }
